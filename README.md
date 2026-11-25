@@ -2,36 +2,35 @@
 
 Frontend de demostración en React, TypeScript, Tailwind CSS y shadcn/ui, con iconos Lucide y gráficos Recharts. Usa pesos chilenos y toma la fecha de corte en `America/Santiago`.
 
-El stack y las fronteras del sistema se describen en [Arquitectura](../ARCHITECTURE.md) y [Topología](../docs/TOPOLOGY.md).
+El stack y las fronteras del sistema se describen en [Arquitectura](https://github.com/IgnacioCruzR/Billetera-Virtual/blob/292e0dfd05126a290daca225c60bae65247c3282/ARCHITECTURE.md) y [Topología](https://github.com/IgnacioCruzR/Billetera-Virtual/blob/292e0dfd05126a290daca225c60bae65247c3282/docs/TOPOLOGY.md).
 
 ## Ejecutar en local
 
 Usa Node.js 22.12 o superior. Desde la raíz del repositorio ejecuta:
 
-```sh
-cd frontend
-npm ci
-npm run dev
+```powershell
+npm.cmd ci
+npm.cmd run dev
 ```
 
 Abre la URL que imprime Vite. `npm run build` comprueba TypeScript y genera `dist/`. `npm run preview` sirve esa compilación.
 
 Las pantallas comparten los registros de demostración en memoria. Al recargar se restablecen los datos iniciales. Las alertas presupuestarias se calculan desde los límites y gastos registrados, y las reservas se derivan de los aportes y liberaciones.
 
-`VITE_DATA_MODE=demo` selecciona la demostración y es el valor predeterminado. Con `VITE_DATA_MODE=integration`, la entrada inicializa Apollo Client con `/graphql` del mismo origen y muestra el estado pendiente del BFF. La configuración es pública y Vite la incorpora durante la compilación. Para cambiar el modo de la imagen, vuelve a construirla con `--build-arg VITE_DATA_MODE=integration`. [Plan de integración](../docs/GRAPHQL_INTEGRATION_PLAN.md)
+`VITE_DATA_MODE=demo` selecciona la demostración y es el valor predeterminado. Con `VITE_DATA_MODE=integration`, la entrada inicializa Apollo Client con `/graphql` del mismo origen y muestra el estado pendiente del BFF. La configuración es pública y Vite la incorpora durante la compilación. Para cambiar el modo de la imagen, vuelve a construirla con `--build-arg VITE_DATA_MODE=integration`. [Plan de integración](https://github.com/IgnacioCruzR/Billetera-Virtual/blob/292e0dfd05126a290daca225c60bae65247c3282/docs/GRAPHQL_INTEGRATION_PLAN.md)
 
 ## Contenedor Nginx
 
-El [entorno local de Compose](../docs/LOCAL_DEVELOPMENT.md) puede arrancar este contenedor de forma independiente en modo demo. La guía incluye la verificación de las diez rutas contra el paquete servido por Nginx.
+El workspace multirepositorio puede arrancar este contenedor en modo demo. Si tienes los seis clones y los recursos compartidos, consulta `docs/LOCAL_DEVELOPMENT.md` desde la raíz del workspace. La guía incluye la comprobación de las diez rutas contra Nginx.
 
 Desde la raíz del checkout, con un daemon Docker disponible, construye y sirve la misma demo.
 
-```sh
-docker build -t billetera-frontend ./frontend
+```powershell
+docker build -t billetera-frontend .
 docker run --rm -p 127.0.0.1:8080:8080 billetera-frontend
 ```
 
-La aplicación se abre en `http://127.0.0.1:8080/` y Nginx responde en `/healthz`. El endpoint público de integración previsto es `/graphql` del mismo host. En Kubernetes, Ingress envía esa ruta al BFF y sirve la interfaz desde Nginx. [Topología de despliegue](../docs/TOPOLOGY.md#despliegue-objetivo-en-kubernetes)
+La aplicación se abre en `http://127.0.0.1:8080/` y Nginx responde en `/healthz`. El endpoint público de integración previsto es `/graphql` del mismo host. En Kubernetes, Ingress envía esa ruta al BFF y sirve la interfaz desde Nginx. [Topología de despliegue](https://github.com/IgnacioCruzR/Billetera-Virtual/blob/292e0dfd05126a290daca225c60bae65247c3282/docs/TOPOLOGY.md#despliegue-objetivo-en-kubernetes)
 
 ## Probar Movimientos
 
@@ -124,16 +123,16 @@ Los datos y escenarios viven en memoria en la demo. La fecha estimada representa
 
 Para ejecutar las pruebas de integración con Chromium, instala el navegador de Playwright una vez.
 
-```sh
-npx playwright install chromium
-npm test
+```powershell
+npx.cmd playwright install chromium
+npm.cmd test
 ```
 
-Puedes ejecutar las mismas pruebas con un Edge instalado usando `PLAYWRIGHT_CHANNEL=msedge`. [Navegadores compatibles con Playwright](https://playwright.dev/docs/browsers)
+Para usar Edge instalado, ejecuta `$env:PLAYWRIGHT_CHANNEL = 'msedge'` en la misma sesión de PowerShell antes de iniciar las pruebas. [Navegadores compatibles con Playwright](https://playwright.dev/docs/browsers)
 
 `npm run test:unit` ejecuta las pruebas unitarias con Node.js. `npm run lint` comprueba TypeScript, JavaScript y las reglas de Hooks de React. `npm run typecheck` comprueba los tipos y `npm run test:e2e` ejecuta la suite de navegador.
 
-`npm run test:coverage` exige al menos 60 % de cobertura de líneas sobre los módulos de `src/` cargados por esa suite. `npm run test:coverage:statements` vuelve a ejecutar la suite con contadores de Istanbul sobre esos mismos archivos para medir sentencias. [Auditoría de alcance](../docs/FRONTEND_AUDIT.md#cobertura) · [Workflow de CI](../.github/workflows/frontend-ci.yml)
+`npm run test:coverage` exige al menos 60 % de cobertura de líneas sobre los módulos de `src/` cargados por esa suite. `npm run test:coverage:statements` vuelve a ejecutar la suite con contadores de Istanbul sobre esos mismos archivos para medir sentencias. [Auditoría de alcance](https://github.com/IgnacioCruzR/Billetera-Virtual/blob/292e0dfd05126a290daca225c60bae65247c3282/docs/FRONTEND_AUDIT.md#cobertura) · [Workflow de CI](.github/workflows/frontend-ci.yml)
 
 ## Estructura
 
@@ -177,23 +176,23 @@ Puedes ejecutar las mismas pruebas con un Edge instalado usando `PLAYWRIGHT_CHAN
 3. Examina el ahorro potencial, el mínimo de caja y el primer déficit. **Restablecer escenario** recupera los valores base y **Cerrar simulador** descarta la hipótesis. Desde Gastos hormiga también se puede enviar a Salud financiera el porcentaje general aplicado a consumos prescindibles.
 4. Prueba **Ocultar montos** en el simulador y abre una recomendación del **Plan de mejora**. Un pago efectivo confirmado en Cobros y pagos actualiza el pilar y la evaluación compartida con el dashboard.
 
-La [metodología](../docs/FINANCIAL_INDICATORS.md#metodología-v2-demo-de-salud-financiera) especifica los cinco cálculos y la procedencia histórica. Los [contratos de integración](../docs/FINANCIAL_HEALTH_INTEGRATION.md) describen las operaciones GraphQL, el uso de MCP y las extensiones pendientes.
+La [metodología](https://github.com/IgnacioCruzR/Billetera-Virtual/blob/292e0dfd05126a290daca225c60bae65247c3282/docs/FINANCIAL_INDICATORS.md#metodología-v2-demo-de-salud-financiera) especifica los cinco cálculos y la procedencia histórica. Los [contratos de integración](https://github.com/IgnacioCruzR/Billetera-Virtual/blob/292e0dfd05126a290daca225c60bae65247c3282/docs/FINANCIAL_HEALTH_INTEGRATION.md) describen las operaciones GraphQL, el uso de MCP y las extensiones pendientes.
 
 ## Integración con GraphQL
 
-**Configuración** administra las preferencias compartidas, categorías, avisos, privacidad, consentimiento y exportación CSV. Los límites y las opciones de verificación están en la [guía de Configuración](../docs/USER_SETTINGS.md) y los [contratos candidatos](../docs/SETTINGS_GRAPHQL_CONTRACT.md).
+**Configuración** administra las preferencias compartidas, categorías, avisos, privacidad, consentimiento y exportación CSV. Los límites y las opciones de verificación están en la [guía de Configuración](https://github.com/IgnacioCruzR/Billetera-Virtual/blob/292e0dfd05126a290daca225c60bae65247c3282/docs/USER_SETTINGS.md) y los [contratos candidatos](https://github.com/IgnacioCruzR/Billetera-Virtual/blob/292e0dfd05126a290daca225c60bae65247c3282/docs/SETTINGS_GRAPHQL_CONTRACT.md).
 
-El punto de integración es `FinancialRepository`, que consume `useFinancialRecords`. `ApolloProvider` ya se inicializa en `integration`. Al aprobar el esquema, el adaptador tipado usará el cliente para las operaciones de `/graphql`. `ms-transacciones` es el responsable previsto de saldos, series históricas, autorización sobre los recursos financieros, idempotencia y atomicidad de transferencias. El contrato conserva importes CLP exactos y filtros independientes de los períodos del resumen. [Topología oficial](../docs/TOPOLOGY.md) · [Plan de GraphQL](../docs/GRAPHQL_INTEGRATION_PLAN.md)
+El punto de integración es `FinancialRepository`, que consume `useFinancialRecords`. `ApolloProvider` ya se inicializa en `integration`. Al aprobar el esquema, el adaptador tipado usará el cliente para las operaciones de `/graphql`. `ms-transacciones` es el responsable previsto de saldos, series históricas, autorización sobre los recursos financieros, idempotencia y atomicidad de transferencias. El contrato conserva importes CLP exactos y filtros independientes de los períodos del resumen. [Topología oficial](https://github.com/IgnacioCruzR/Billetera-Virtual/blob/292e0dfd05126a290daca225c60bae65247c3282/docs/TOPOLOGY.md) · [Plan de GraphQL](https://github.com/IgnacioCruzR/Billetera-Virtual/blob/292e0dfd05126a290daca225c60bae65247c3282/docs/GRAPHQL_INTEGRATION_PLAN.md)
 
-En **Asistente IA**, el adaptador `AssistantProvider` permite integrar la futura operación `generateFinancialAnalysis` con Apollo Client. La demo conserva en memoria el consentimiento y los informes de sesión. Consulta los [pasos para probar los seis análisis](../docs/AI_ASSISTANT.md) y la [propuesta de contrato](../docs/AI_ANALYSIS_CONTRACT.md).
+En **Asistente IA**, el adaptador `AssistantProvider` permite integrar la futura operación `generateFinancialAnalysis` con Apollo Client. La demo conserva en memoria el consentimiento y los informes de sesión. Consulta los [pasos para probar los seis análisis](https://github.com/IgnacioCruzR/Billetera-Virtual/blob/292e0dfd05126a290daca225c60bae65247c3282/docs/AI_ASSISTANT.md) y la [propuesta de contrato](https://github.com/IgnacioCruzR/Billetera-Virtual/blob/292e0dfd05126a290daca225c60bae65247c3282/docs/AI_ANALYSIS_CONTRACT.md).
 
-Para Cobros y pagos quedan por definir consultas paginadas de historial y calendario, consulta de detalle con el movimiento asociado y consulta de proyección con horizonte, fecha de corte y riesgos. Las mutaciones de alta, edición, cancelación y confirmación deberán exponer errores de dominio, control de versiones e idempotencia. La confirmación deberá devolver el compromiso y el movimiento de una misma transacción para actualizar coherentemente historial, cuentas, presupuestos y dashboard. El BFF NestJS expondrá los avisos y su estado de lectura, y la zona horaria provendrá del perfil autenticado. La demo usa `America/Santiago` del perfil de Camila. Los tipos de presentación y las hipótesis del simulador viven en el frontend. [Eventos de compromisos](../docs/DOMAIN_EVENTS.md#avisos-de-cobros-y-pagos)
+Para Cobros y pagos quedan por definir consultas paginadas de historial y calendario, consulta de detalle con el movimiento asociado y consulta de proyección con horizonte, fecha de corte y riesgos. Las mutaciones de alta, edición, cancelación y confirmación deberán exponer errores de dominio, control de versiones e idempotencia. La confirmación deberá devolver el compromiso y el movimiento de una misma transacción para actualizar coherentemente historial, cuentas, presupuestos y dashboard. El BFF NestJS expondrá los avisos y su estado de lectura, y la zona horaria provendrá del perfil autenticado. La demo usa `America/Santiago` del perfil de Camila. Los tipos de presentación y las hipótesis del simulador viven en el frontend. [Eventos de compromisos](https://github.com/IgnacioCruzR/Billetera-Virtual/blob/292e0dfd05126a290daca225c60bae65247c3282/docs/DOMAIN_EVENTS.md#avisos-de-cobros-y-pagos)
 
 Para Gastos hormiga, `ms-transacciones` tendrá la autoridad sobre detección, indicadores y proyecciones. Quedan por definir consultas GraphQL por período para resumen, series, patrones e historial paginado con referencia al movimiento, y mutaciones para guardar preferencias y clasificar gastos individualmente o en lote. Una clasificación múltiple requiere autorización sobre todos los IDs y aplicación atómica. El BFF deberá incluir el corte, la zona horaria y la versión del criterio en las respuestas derivadas.
 
 El adaptador `FinancialHealthRepository` es el punto de integración para recibir la evaluación de `ms-transacciones` mediante Apollo Client y GraphQL. El BFF invocará a `ms-agente-mcp` mediante gRPC y el agente consultará los datos autorizados de Usuarios y Transacciones por gRPC. El planificador de **Metas de ahorro** recibe la estimación del simulador de Gastos hormiga y la usa junto con el faltante efectivo de una meta.
 
-Para **Metas de ahorro** quedan por definir consultas GraphQL para resumen, disponibilidad por cuenta, metas, historial paginado y proyección con fecha de corte. Las mutaciones de alta con aporte inicial, edición, aporte, liberación, pausa, reactivación y cierre deben devolver el estado, el historial efectivo y la disponibilidad actualizada. `ms-transacciones` tendrá a cargo la validación de fondos, el control de concurrencia, la idempotencia y la atomicidad de cada operación. Para Salud financiera y la futura herramienta MCP `get_savings_progress`, el contrato debe incluir totales, aportes netos, estados, plan y proyecciones calculados por ese servicio. El BFF expondrá las notificaciones y el estado de lectura. [Eventos de ahorro](../docs/DOMAIN_EVENTS.md#avisos-de-metas-de-ahorro)
+Para **Metas de ahorro** quedan por definir consultas GraphQL para resumen, disponibilidad por cuenta, metas, historial paginado y proyección con fecha de corte. Las mutaciones de alta con aporte inicial, edición, aporte, liberación, pausa, reactivación y cierre deben devolver el estado, el historial efectivo y la disponibilidad actualizada. `ms-transacciones` tendrá a cargo la validación de fondos, el control de concurrencia, la idempotencia y la atomicidad de cada operación. Para Salud financiera y la futura herramienta MCP `get_savings_progress`, el contrato debe incluir totales, aportes netos, estados, plan y proyecciones calculados por ese servicio. El BFF expondrá las notificaciones y el estado de lectura. [Eventos de ahorro](https://github.com/IgnacioCruzR/Billetera-Virtual/blob/292e0dfd05126a290daca225c60bae65247c3282/docs/DOMAIN_EVENTS.md#avisos-de-metas-de-ahorro)
 
 ## Extensiones de dominio pendientes de aprobación
 
@@ -203,10 +202,10 @@ Para **Metas de ahorro** quedan por definir consultas GraphQL para resumen, disp
 - **Eliminación definitiva.** La demostración exige saldo cero y ausencia de referencias, incluso cuando un movimiento previo ya se eliminó del historial visible. Queda por acordar la política de auditoría y el contrato de eliminación en el BFF.
 - **Planificación presupuestaria.** Los estados de consumo usan cortes fijos de 80 % y 100 %. El umbral de aviso de cada presupuesto admite enteros de 1 a 100 y comienza en 80 %. Hay que aprobar el campo opcional de descripción, el umbral por presupuesto y su precedencia frente a la regla global de RN-11.
 - **Edición y copia de presupuestos.** La demo permite crear, editar y copiar hacia el mes corriente o futuro, en línea con RN-08. La eliminación confirmada retira el límite de la comparación histórica y conserva los gastos y saldos. La copia completa se procesa bajo una única operación y requiere resolver todos los conflictos antes de escribir. Quedan por aprobar los contratos de copia, eliminación y auditoría histórica.
-- **Proyección y avisos.** El cálculo usa los días gregorianos del mes, incluye el día de corte y redondea hacia abajo el margen diario en CLP. La estimación lineal requiere tres días transcurridos, días por delante y gastos en al menos dos fechas. Un movimiento que concentra más del 75 % del consumo se señala en el detalle. El BFF deberá exponer el historial, las métricas, la gestión de límites y los avisos del servidor. [Propuesta de eventos presupuestarios](../docs/DOMAIN_EVENTS.md#propuesta-de-eventos-de-consumo-presupuestario)
+- **Proyección y avisos.** El cálculo usa los días gregorianos del mes, incluye el día de corte y redondea hacia abajo el margen diario en CLP. La estimación lineal requiere tres días transcurridos, días por delante y gastos en al menos dos fechas. Un movimiento que concentra más del 75 % del consumo se señala en el detalle. El BFF deberá exponer el historial, las métricas, la gestión de límites y los avisos del servidor. [Propuesta de eventos presupuestarios](https://github.com/IgnacioCruzR/Billetera-Virtual/blob/292e0dfd05126a290daca225c60bae65247c3282/docs/DOMAIN_EVENTS.md#propuesta-de-eventos-de-consumo-presupuestario)
 - **Reprogramación y auditoría de compromisos.** La demo permite mover un pendiente vencido a hoy o a una fecha futura y conserva el primer vencimiento. Queda por aprobar esta ampliación de RN-06, el campo de vencimiento original y el historial de cambios de fecha, monto y cuenta.
 - **Confirmación y correcciones.** La confirmación conserva el monto previsto y genera un solo movimiento. Un reintento con la misma fecha devuelve el resultado existente. Un reintento con otra fecha devuelve un conflicto. Quedan por acordar el contrato de idempotencia y una operación de reversión o corrección de fecha, monto o cuenta para compromisos confirmados. Los movimientos vinculados admiten reclasificación compatible y mantienen ambos vínculos.
 - **Gastos hormiga.** La demo amplía RN-09 con umbral inicial de 5.000 CLP, agrupación por descripción normalizada y categoría, estado analítico excluido y marcas manuales de necesario o prescindible incluidas independientemente del criterio automático. Queda por acordar la versión del algoritmo, origen y fecha de la revisión, exclusiones por categoría, activación de detección, vista de frecuencia y el historial de cambios de preferencia. La clasificación pertenece al movimiento efectivo.
 - **Metas de ahorro.** La demo propone asignar cada reserva a una cuenta y conservar fecha local, instante de registro y motivo. Amplía RN-10 con objetivo editable en progreso, metadatos visuales, fecha objetivo, aporte planificado, estado de pausa y cierres diferenciados por finalización o cancelación. Queda por aprobar el modelo de transiciones, la política de fechas efectivas retroactivas y la auditoría de hitos, ediciones y cierres.
 
-Los términos y políticas aprobados previamente se encuentran en las [reglas de negocio](../docs/BUSINESS_RULES.md).
+Los términos y políticas aprobados previamente se encuentran en las [reglas de negocio](https://github.com/IgnacioCruzR/Billetera-Virtual/blob/292e0dfd05126a290daca225c60bae65247c3282/docs/BUSINESS_RULES.md).
