@@ -1,5 +1,23 @@
 # Billetera Virtual · Frontend
 
+La [guía de entrega al equipo](docs/ENTREGA_EQUIPO.md) resume los cambios, su
+implementación, pruebas y pendientes. El arranque conjunto está en la
+[guía versionada del BFF](../billetera-bff-graphql/docs/INTEGRACION_LOCAL.md).
+
+## Integración actual de identidad
+
+VITE_DATA_MODE=integration ya conecta registro, login, logout, perfil y preferencias
+al BFF GraphQL y a Usuarios con persistencia real. El entorno local compartido se
+levanta desde ../billetera-ms-usuarios/compose.dev.yaml y se abre en
+http://127.0.0.1:8080. La imagen selecciona nginx.integration.conf para enrutar
+/graphql al BFF. VITE_DATA_MODE=demo conserva la demo financiera original.
+
+La integración usa cookies HttpOnly, limpia el cliente Apollo al salir y no guarda
+tokens en localStorage. El consentimiento de IA sigue pendiente antes de integrar
+el asistente real. Las funciones financieras esperan sus servicios; no se mezclan
+registros demo con la cuenta autenticada. Detalles y pruebas en
+[la entrega de identidad](docs/ENTREGA_EQUIPO.md). Las secciones posteriores conservan el contexto de la demo.
+
 Frontend de demostración en React, TypeScript, Tailwind CSS y shadcn/ui, con iconos Lucide y gráficos Recharts. Usa pesos chilenos y toma la fecha de corte en `America/Santiago`.
 
 El stack y las fronteras del sistema se describen en [Arquitectura](https://github.com/IgnacioCruzR/Billetera-Virtual/blob/292e0dfd05126a290daca225c60bae65247c3282/ARCHITECTURE.md) y [Topología](https://github.com/IgnacioCruzR/Billetera-Virtual/blob/292e0dfd05126a290daca225c60bae65247c3282/docs/TOPOLOGY.md).
@@ -17,7 +35,7 @@ Abre la URL que imprime Vite. `npm run build` comprueba TypeScript y genera `dis
 
 Las pantallas comparten los registros de demostración en memoria. Al recargar se restablecen los datos iniciales. Las alertas presupuestarias se calculan desde los límites y gastos registrados, y las reservas se derivan de los aportes y liberaciones.
 
-`VITE_DATA_MODE=demo` selecciona la demostración y es el valor predeterminado. Con `VITE_DATA_MODE=integration`, la entrada inicializa Apollo Client con `/graphql` del mismo origen y muestra el estado pendiente del BFF. La configuración es pública y Vite la incorpora durante la compilación. Para cambiar el modo de la imagen, vuelve a construirla con `--build-arg VITE_DATA_MODE=integration`. [Plan de integración](https://github.com/IgnacioCruzR/Billetera-Virtual/blob/292e0dfd05126a290daca225c60bae65247c3282/docs/GRAPHQL_INTEGRATION_PLAN.md)
+`VITE_DATA_MODE=demo` selecciona la demostración y es el valor predeterminado. Con `VITE_DATA_MODE=integration`, Apollo usa `/graphql` del mismo origen y ofrece registro, login, perfil, preferencias y logout reales. La configuración es pública y Vite la incorpora durante la compilación. Para cambiar el modo de la imagen, vuelve a construirla con `--build-arg VITE_DATA_MODE=integration`. El flujo real requiere el BFF y Usuarios, según la [guía conjunta](../billetera-bff-graphql/docs/INTEGRACION_LOCAL.md).
 
 ## Contenedor Nginx
 

@@ -7,6 +7,7 @@ export function createBffClient() {
     link: new HttpLink({
       uri: bffPath,
       credentials: 'same-origin',
+      headers: { 'x-billetera-request': '1' },
       fetchOptions: { redirect: 'error' },
     }),
     cache: new InMemoryCache(),

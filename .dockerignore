@@ -5,7 +5,9 @@
 !tsconfig.json
 !vite.config.ts
 !playwright.config.ts
+!eslint.config.mjs
 !nginx.conf
+!nginx.integration.conf
 !src/
 !src/**
 !tests/
